@@ -1,5 +1,8 @@
-<h1>Wordle</h1>
-<div id="grid"></div>
+<div id="game">
+  <h1>Wordle</h1>
+  <div id="grid"></div>
+  <div id="keyboard"></div>
+</div>
 
 <style>
   body, html {
@@ -9,11 +12,26 @@
     text-align: center;
     text-transform: uppercase;
   }
-
   h1 {
     font-size: 40px;
   }
-
+  #game {
+    display: flex;
+    flex-direction: column;
+  }
+  #keyboard {
+    margin-top: 30px;
+  }
+  .button {
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 15px;
+    margin: 3px;
+    border-radius: 5px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+  }
   .cell {
     width: 60px;
     height: 60px;

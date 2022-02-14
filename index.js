@@ -1,16 +1,21 @@
 'use strict';
 
-let grid = document.querySelector('#grid');
-let worldList = [
+const grid = document.querySelector('#grid');
+const keyboard = document.querySelector('#keyboard');
+const LIGHT_GREY = '#d3d6da';
+const GREY = '#939598';
+const GREEN = '#538d4e';
+const YELLOW = '#b59f3b';
+const worldList = [
   'patio',
   'river',
   'piano',
   'champ',
   'horse',
 ];
-let randomIndex = Math.floor(Math.random() * worldList.length);
-let secret = worldList[randomIndex];
-let attempts = [];
+const randomIndex = Math.floor(Math.random() * worldList.length);
+const secret = worldList[randomIndex];
+const attempts = [];
 let currentAttempt = '';
 
 function buildGrid() {
@@ -46,14 +51,16 @@ function getBgColor(attempt, i) {
   let correctLetter = secret[i];
   let attemptLetter = attempt[i];
 
-  if (!attempt || secret.indexOf(attemptLetter) === -1) return '#939598';
-  if (correctLetter === attemptLetter) return '#538d4e';
+  if (!attempt || secret.indexOf(attemptLetter) === -1) return GREY;
+  if (correctLetter === attemptLetter) return GREEN;
 
-  return '#b59f3b';
+  return YELLOW;
 }
 
 function handleKeyDown(e) {
-  let key= e.key.toLowerCase();
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+  let key = e.key.toLowerCase();
 
   if (key === "enter") {
     if (currentAttempt.length < 5) return
@@ -74,5 +81,36 @@ function handleKeyDown(e) {
   updateGrid();
 }
 
+function buildKeyboard() {
+  buildKeyboardRow('qwertyuiop');
+  buildKeyboardRow('asdfghjkl');
+  buildKeyboardRow('zxcvbnm', true);
+}
+
+function createButton(letter) {
+  const button = document.createElement('button');
+  button.className = 'button';
+  button.textContent = letter;
+  button.style.backgroundColor = LIGHT_GREY;
+  button.onclick = function() {
+    button.blur();
+    self.dispatchEvent(new KeyboardEvent('keydown',  { 'key': letter }));
+  };
+  return button;
+}
+
+function buildKeyboardRow(letters, addSpecials=false) {
+  let row = document.createElement('div');
+  if (addSpecials) row.appendChild(createButton("Enter"));
+
+  for (let letter of letters) {
+    row.appendChild(createButton(letter));
+  }
+
+  if (addSpecials) row.appendChild(createButton("Backspace"));
+  keyboard.appendChild(row)
+}
+
 buildGrid();
+buildKeyboard();
 window.addEventListener('keydown', handleKeyDown);
