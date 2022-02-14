@@ -28,17 +28,17 @@ function buildGrid() {
 function updateGrid() {
   let row = grid.firstChild;
   for (let attempt of attempts) {
-    drawAttempt(row, attempt)
+    drawAttempt(row, attempt, false)
     row = row.nextSibling;
   }
-  drawAttempt(row, currentAttempt);
+  drawAttempt(row, currentAttempt, true);
 }
 
-function drawAttempt(row, attempt) {
+function drawAttempt(row, attempt, isCurrent) {
   for (let i = 0; i < 5; i++) {
     let cell = row.children[i];
     cell.innerHTML = attempt[i] || '&nbsp;';
-    cell.style.backgroundColor = getBgColor(attempt, i);
+    if (!isCurrent) cell.style.backgroundColor = getBgColor(attempt, i);
   }
 }
 
@@ -65,7 +65,7 @@ function handleKeyDown(e) {
     currentAttempt = '';
   } else if (key === 'backspace') {
     currentAttempt = currentAttempt.slice(0, currentAttempt.length - 1);
-  } else if (/[a-z]/.test(key)) {
+  } else if (/^[a-z]$/.test(key)) {
     if (currentAttempt.length < 5) {
       currentAttempt += key;
     }
