@@ -45,7 +45,16 @@ function drawAttempt(row, attempt, isCurrent) {
   for (let i = 0; i < 5; i++) {
     let cell = row.children[i];
     cell.innerHTML = attempt[i] || '&nbsp;';
-    if (!isCurrent) cell.style.backgroundColor = getBgColor(attempt, i);
+    if (!isCurrent) {
+      cell.style.backgroundColor = getBgColor(attempt, i);
+      cell.style.borderColor = getBgColor(attempt, i);
+    } else {
+      if (attempt[i]) {
+        cell.style.borderColor = LIGHT_GREY;
+      } else {
+        cell.style.borderColor = GREY;
+      }
+    }
   }
 }
 
