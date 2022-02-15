@@ -18,6 +18,7 @@ const randomIndex = Math.floor(Math.random() * worldList.length);
 const secret = worldList[randomIndex];
 const attempts = [];
 let currentAttempt = '';
+let guessed = false;
 
 function buildGrid() {
   for (let i = 0; i < MAX_ATTEMPTS; i++) {
@@ -59,7 +60,7 @@ function getBgColor(attempt, i) {
 }
 
 function handleKeyDown(e) {
-  if (attempts === MAX_ATTEMPTS) return;
+  if (attempts.length === MAX_ATTEMPTS || guessed) return;
   if (e.ctrlKey || e.metaKey || e.altKey) return;
 
   let key = e.key.toLowerCase();
@@ -71,8 +72,14 @@ function handleKeyDown(e) {
       return;
     }
     attempts.push(currentAttempt);
+    if (currentAttempt === secret) {
+      guessed = true;
+    }
     currentAttempt = '';
     updateKeyboard();
+    if (attempts.length === MAX_ATTEMPTS && !guessed) {
+      alert(secret);
+    }
   } else if (key === 'backspace') {
     currentAttempt = currentAttempt.slice(0, currentAttempt.length - 1);
   } else if (/^[a-z]$/.test(key)) {
