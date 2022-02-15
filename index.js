@@ -70,6 +70,7 @@ function handleKeyDown(e) {
     }
     attempts.push(currentAttempt);
     currentAttempt = '';
+    updateKeyboard();
   } else if (key === 'backspace') {
     currentAttempt = currentAttempt.slice(0, currentAttempt.length - 1);
   } else if (/^[a-z]$/.test(key)) {
@@ -109,6 +110,33 @@ function buildKeyboardRow(letters, addSpecials=false) {
 
   if (addSpecials) row.appendChild(createButton("Backspace"));
   keyboard.appendChild(row)
+}
+
+function updateKeyboard() {
+  const letterColors = new Map();
+
+  for (let attempt of attempts) {
+    for (let i = 0; i < attempt.length; i++) {
+      const currentColor = letterColors.get(attempt[i]);
+      const nextColor = getBgColor(attempt, i);
+      letterColors.set(attempt[i], getLetterColor(currentColor, nextColor));
+    }
+  }
+
+  document.querySelectorAll('button').forEach(function(elem) {
+    const letter = elem.innerText.toLocaleLowerCase();
+    const color = letterColors.get(letter);
+
+    if (color) elem.style.backgroundColor = color;
+  });
+}
+
+function getLetterColor(currentColor, nextColor) {
+  if (!currentColor) return nextColor;
+  if (currentColor === GREEN || nextColor === GREEN) return GREEN;
+  if (currentColor === YELLOW && nextColor === GREY) return YELLOW;
+
+  return nextColor;
 }
 
 buildGrid();
