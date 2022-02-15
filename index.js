@@ -15,8 +15,8 @@ const worldList = [
   'horse',
 ];
 const randomIndex = Math.floor(Math.random() * worldList.length);
-const secret = worldList[randomIndex];
-const attempts = [];
+let secret = worldList[randomIndex];
+let attempts = [];
 let currentAttempt = '';
 let guessed = false;
 
@@ -77,6 +77,7 @@ function handleKeyDown(e) {
     }
     currentAttempt = '';
     updateKeyboard();
+    saveProgress();
     if (attempts.length === MAX_ATTEMPTS && !guessed) {
       alert(secret);
     }
@@ -148,6 +149,30 @@ function getLetterColor(currentColor, nextColor) {
   return nextColor;
 }
 
+function loadProgress() {
+  let gameData = JSON.parse(localStorage.getItem('gameData'));
+
+  if (gameData != null) {
+    attempts = gameData.attempts;
+    secret = gameData.secret;
+    guessed = gameData.guessed;
+  }
+
+  updateGrid();
+  updateKeyboard();
+}
+
+function saveProgress() {
+  const gameData = JSON.stringify({
+    secret,
+    attempts,
+    guessed,
+  });
+
+  localStorage.setItem('gameData', gameData);
+}
+
 buildGrid();
 buildKeyboard();
+loadProgress();
 window.addEventListener('keydown', handleKeyDown);
