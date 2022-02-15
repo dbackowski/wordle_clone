@@ -6,6 +6,7 @@ const LIGHT_GREY = '#d3d6da';
 const GREY = '#939598';
 const GREEN = '#538d4e';
 const YELLOW = '#b59f3b';
+const MAX_ATTEMPTS = 6;
 const worldList = [
   'patio',
   'river',
@@ -19,7 +20,7 @@ const attempts = [];
 let currentAttempt = '';
 
 function buildGrid() {
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < MAX_ATTEMPTS; i++) {
     let row = document.createElement('div');
     for (let j = 0; j < 5; j++) {
       let cell = document.createElement('div')
@@ -58,6 +59,7 @@ function getBgColor(attempt, i) {
 }
 
 function handleKeyDown(e) {
+  if (attempts === MAX_ATTEMPTS) return;
   if (e.ctrlKey || e.metaKey || e.altKey) return;
 
   let key = e.key.toLowerCase();
