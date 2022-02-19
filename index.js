@@ -58,6 +58,18 @@ function drawAttempt(row, attempt, isCurrent) {
   }
 }
 
+function animateLetter(index) {
+  const rowIndex = attempts.length;
+  const row = grid.children[rowIndex];
+  const cell = row.children[index];
+
+  cell.classList.remove('run-letter-press-animation');
+
+  void cell.offsetWidth; // needed in order to restart the animation
+
+  cell.classList.add('run-letter-press-animation');
+}
+
 function getBgColor(attempt, i) {
   let correctLetter = secret[i];
   let attemptLetter = attempt[i];
@@ -95,6 +107,7 @@ function handleKeyDown(e) {
   } else if (/^[a-z]$/.test(key)) {
     if (currentAttempt.length < 5) {
       currentAttempt += key;
+      animateLetter(currentAttempt.length - 1);
     }
   }
 

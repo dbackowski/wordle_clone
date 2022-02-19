@@ -43,6 +43,25 @@
     font-size: 40px;
     font-weight: bold;
   }
+  @keyframes letter-press {
+    from {
+      opacity: 0.5;
+      transform: scale(0.9);
+    }
+
+    50% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .run-letter-press-animation {
+    animation: letter-press 300ms ease-out;
+  }
 </style>
 
 <script src="index.js"></script>
