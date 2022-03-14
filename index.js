@@ -26,6 +26,13 @@ function buildGrid() {
     for (let j = 0; j < 5; j++) {
       let cell = document.createElement('div')
       cell.className = 'cell'
+      let front = document.createElement('div')
+      front.className = 'front'
+      let back = document.createElement('div')
+      back.className = 'back'
+
+      cell.appendChild(front)
+      cell.appendChild(back)
       row.appendChild(cell);
     }
     grid.appendChild(row);
@@ -43,16 +50,24 @@ function updateGrid() {
 
 function drawAttempt(row, attempt, isCurrent) {
   for (let i = 0; i < 5; i++) {
-    let cell = row.children[i];
-    cell.innerHTML = attempt[i] || '&nbsp;';
+    let cell = row.children[i]
+    let front = cell.querySelector('.front');
+    let back = cell.querySelector('.back');
+    front.innerHTML = attempt[i] || '&nbsp;';
+    back.innerHTML = attempt[i] || '&nbsp;';
     if (!isCurrent) {
-      cell.style.backgroundColor = getBgColor(attempt, i);
-      cell.style.borderColor = getBgColor(attempt, i);
+      back.style.backgroundColor = getBgColor(attempt, i);
+      back.style.borderColor = getBgColor(attempt, i);
+      if (!cell.classList.contains('flip')) {
+        setTimeout(function() {
+          cell.classList.toggle('flip')
+        }, 200 * i)
+      }
     } else {
       if (attempt[i]) {
-        cell.style.borderColor = LIGHT_GREY;
+        back.style.borderColor = LIGHT_GREY;
       } else {
-        cell.style.borderColor = GREY;
+        back.style.borderColor = GREY;
       }
     }
   }
