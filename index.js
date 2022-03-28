@@ -82,10 +82,26 @@ function animateLetter(index) {
   const cell = row.children[index];
 
   cell.classList.remove('run-letter-press-animation');
+  cell.classList.remove('run-invalid-word-animation');
 
   void cell.offsetWidth; // needed in order to restart the animation
 
   cell.classList.add('run-letter-press-animation');
+}
+
+function animateWrongWord() {
+  const rowIndex = attempts.length;
+  const row = grid.children[rowIndex];
+  const cells = [...row.children];
+
+  cells.forEach(function(cell) {
+    cell.classList.remove('run-letter-press-animation');
+    cell.classList.remove('run-invalid-word-animation');
+
+    void cell.offsetWidth; // needed in order to restart the animation
+
+    cell.classList.add('run-invalid-word-animation');
+  });
 }
 
 function getBgColor(attempt, i) {
@@ -108,6 +124,7 @@ function handleKeyDown(e) {
     if (currentAttempt.length < 5) return
     if (!worldList.includes(currentAttempt)) {
       showAlert('Not a valid word');
+      animateWrongWord();
       return;
     }
     attempts.push(currentAttempt);
