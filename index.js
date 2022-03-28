@@ -45,7 +45,10 @@ function updateGrid() {
     drawAttempt(row, attempt, false)
     row = row.nextSibling;
   }
-  drawAttempt(row, currentAttempt, true);
+
+  if (row) {
+    drawAttempt(row, currentAttempt, true);
+  }
 }
 
 function drawAttempt(row, attempt, isCurrent) {
@@ -104,7 +107,7 @@ function handleKeyDown(e) {
   if (key === "enter") {
     if (currentAttempt.length < 5) return
     if (!worldList.includes(currentAttempt)) {
-      alert('Not a valid word');
+      showAlert('Not a valid word');
       return;
     }
     attempts.push(currentAttempt);
@@ -115,7 +118,7 @@ function handleKeyDown(e) {
     updateKeyboard();
     saveProgress();
     if (attempts.length === MAX_ATTEMPTS && !guessed) {
-      alert(secret);
+      showAlert(secret);
     }
   } else if (key === 'backspace') {
     currentAttempt = currentAttempt.slice(0, currentAttempt.length - 1);
@@ -176,6 +179,19 @@ function updateKeyboard() {
 
     if (color) elem.style.backgroundColor = color;
   });
+}
+
+function showAlert(text) {
+  const div = document.createElement('div');
+  div.className = 'alert';
+  div.innerHTML = text;
+
+  document.querySelector('body').appendChild(div);
+
+  setTimeout(function() {
+    div.style.display = "none";
+    div.remove();
+  }, 1000);
 }
 
 function getLetterColor(currentColor, nextColor) {
