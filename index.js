@@ -7,13 +7,6 @@ const GREY = '#939598';
 const GREEN = '#538d4e';
 const YELLOW = '#b59f3b';
 const MAX_ATTEMPTS = 6;
-const worldList = [
-  'patio',
-  'river',
-  'piano',
-  'champ',
-  'horse',
-];
 const randomIndex = Math.floor(Math.random() * worldList.length);
 let secret = worldList[randomIndex];
 let attempts = [];
