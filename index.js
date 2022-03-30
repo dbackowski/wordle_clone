@@ -148,11 +148,22 @@ function buildKeyboard() {
   buildKeyboardRow('zxcvbnm', true);
 }
 
-function createButton(letter) {
+function createButton(letter, icon) {
   const button = document.createElement('button');
   button.className = 'button';
-  button.textContent = letter;
+  if (!icon) {
+    button.textContent = letter;
+  }
   button.style.backgroundColor = LIGHT_GREY;
+
+  if (icon) {
+    const icon = document.createElement('i');
+    icon.className = 'material-icons';
+    icon.textContent = 'backspace';
+    icon.style.fontSize = '16px';
+    button.appendChild(icon);
+  }
+
   button.onclick = function() {
     button.blur();
     self.dispatchEvent(new KeyboardEvent('keydown',  { 'key': letter }));
@@ -168,7 +179,7 @@ function buildKeyboardRow(letters, addSpecials=false) {
     row.appendChild(createButton(letter));
   }
 
-  if (addSpecials) row.appendChild(createButton("Backspace"));
+  if (addSpecials) row.appendChild(createButton("Backspace", 'backspace'));
   keyboard.appendChild(row)
 }
 
