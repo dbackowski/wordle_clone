@@ -1,4 +1,4 @@
-const worldList = [
+const wordList = [
 "aahed",
 "aalii",
 "aargh",

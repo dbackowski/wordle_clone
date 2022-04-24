@@ -7,8 +7,8 @@ const GREY = '#939598';
 const GREEN = '#538d4e';
 const YELLOW = '#b59f3b';
 const MAX_ATTEMPTS = 6;
-const randomIndex = Math.floor(Math.random() * worldList.length);
-let secret = worldList[randomIndex];
+const randomIndex = Math.floor(Math.random() * wordList.length);
+let secret = wordList[randomIndex];
 let attempts = [];
 let currentAttempt = '';
 let guessed = false;
@@ -115,7 +115,7 @@ function handleKeyDown(e) {
 
   if (key === "enter") {
     if (currentAttempt.length < 5) return
-    if (!worldList.includes(currentAttempt)) {
+    if (!wordList.includes(currentAttempt)) {
       showAlert('Not a valid word');
       animateWrongWord();
       return;
