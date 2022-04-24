@@ -123,6 +123,7 @@ function handleKeyDown(e) {
     attempts.push(currentAttempt);
     if (currentAttempt === secret) {
       guessed = true;
+      showAlert('success');
     }
     currentAttempt = '';
     updateKeyboard();
